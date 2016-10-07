@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using SQLite.Net.Attributes;
 
-namespace TraceYourStackLibrary.SQLite
+namespace TraceYourStackLibrary.SQLite.Models
 {
     /// <summary>
     /// The table that contains the queued exception reports to upload
@@ -11,6 +11,8 @@ namespace TraceYourStackLibrary.SQLite
     [JsonObject(MemberSerialization.OptIn)]
     internal class ExceptionReport
     {
+        #region SQLite columns
+
         /// <summary>
         /// Gets the uid of the entry
         /// </summary>
@@ -66,16 +68,53 @@ namespace TraceYourStackLibrary.SQLite
         public long CrashTime { get; set; }
 
         /// <summary>
-        /// Gets the DateTime that represents the crash time
-        /// </summary>
-        [JsonProperty(nameof(CrashDateTime), Required = Required.Always)]
-        public DateTime CrashDateTime => DateTime.FromBinary(CrashTime);
-
-        /// <summary>
         /// Gets a value that indicates whether or not this report has already been flushed
         /// </summary>
         [Column(nameof(Flushed)), NotNull, Default]
         public byte Flushed { get; set; }
+
+        #endregion
+
+        #region Parameters
+
+        /// <summary>
+        /// Gets the DateTime that represents the crash time
+        /// </summary>
+        [Ignore]
+        [JsonProperty(nameof(CrashDateTime), Required = Required.Always)]
+        public DateTime CrashDateTime => DateTime.FromBinary(CrashTime);
+
+        /// <summary>
+        /// Gets or sets the number of times this kind of exception was thrown
+        /// </summary>
+        [Ignore]
+        public int ExceptionTypeOccurrencies { get; set; }
+
+        /// <summary>
+        /// Gets or sets the most recent time this exception was thrown
+        /// </summary>
+        [Ignore]
+        public long RecentCrashTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the less recent time this exception was thrown
+        /// </summary>
+        [Ignore]
+        public long LessRecentCrashTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the minimum version number that caused this exception
+        /// </summary>
+        [Ignore]
+        public String MinExceptionVersion { get; set; }
+
+        /// <summary>
+        /// Gets or sets the higher version number that caused this exception
+        /// </summary>
+        [Ignore]
+        public String MaxExceptionVersion { get; set; }
+
+        #endregion
 
         /// <summary>
         /// Creates a new instance with a new uid and the right parameters for the JSON serialization

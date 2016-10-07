@@ -7,6 +7,8 @@ using PCLStorage;
 using SQLite.Net;
 using SQLite.Net.Async;
 using TraceYourStackLibrary.Helpers;
+using TraceYourStackLibrary.JumpList;
+using TraceYourStackLibrary.SQLite.Models;
 
 namespace TraceYourStackLibrary.SQLite
 {
@@ -115,6 +117,75 @@ namespace TraceYourStackLibrary.SQLite
         #endregion
 
         #region Local exceptions list
+
+        /// <summary>
+        /// Loads a list of all the exception reports stored on the current device
+        /// </summary>
+        public static async Task<IEnumerable<JumpListGroup<Tuple<Version, int>, ExceptionReportDebugInfo>>> LoadSavedExceptionReportsAsync()
+        {
+            // Ensure the database is connected
+            await EnsureDatabaseInitializedAsync();
+
+            // Load the reports
+            List<ExceptionReport> exceptions = await _Connection.Table<ExceptionReport>().ToListAsync();
+
+            // Update the type occurrencies and the other info
+            foreach (ExceptionReport exception in exceptions)
+            {
+                // Number of times this same Exception was thrown
+                exception.ExceptionTypeOccurrencies = exceptions.Count(item => item.ExceptionType.Equals(exception.ExceptionType));
+
+                // Exceptions with the same Type
+                List<ExceptionReport> sameType =
+                    (from item in exceptions
+                     where item.ExceptionType.Equals(exception.ExceptionType)
+                     orderby item.CrashTime descending
+                     select item).ToList();
+
+                // Update the crash times for the same Exceptions
+                exception.RecentCrashTime = sameType.First().CrashTime;
+                if (sameType.Count > 1) exception.LessRecentCrashTime = sameType.Last().CrashTime;
+
+                // Get the app versions for this Exception Type
+                List<String> versions =
+                    (from entry in sameType
+                     group entry by entry.AppVersion
+                        into version
+                     orderby version.Key
+                     select version.Key).ToList();
+
+                // Update the number of occurrencies and the app version interval
+                exception.MinExceptionVersion = versions.First();
+                if (versions.Count > 1) exception.MaxExceptionVersion = versions.Last();
+            }
+
+            // List the available app versions
+            List<String> appVersions =
+                (from exception in exceptions
+                 group exception by exception.AppVersion
+                    into header
+                 let version = Version.Parse(header.Key)
+                 orderby version descending
+                 select header.Key).ToList();
+
+            // Create the output collection
+            IEnumerable<JumpListGroup<Tuple<Version, int>, ExceptionReportDebugInfo>> groupedList =
+                from version in appVersions
+                let items =
+                    (from exception in exceptions
+                     where exception.AppVersion.Equals(version)
+                     orderby exception.CrashTime descending
+                     select exception).ToList()
+                where items.Count != 0
+                let immutableItems =
+                    (from item in items
+                     select ExceptionReportDebugInfo.New(item))
+                select new JumpListGroup<Tuple<Version, int>, ExceptionReportDebugInfo>(
+                    Tuple.Create<Version, int>(Version.Parse(version), items.Count), immutableItems);
+
+            // Return the exceptions
+            return groupedList;
+        }
 
         #endregion
     }

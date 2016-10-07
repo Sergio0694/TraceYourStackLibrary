@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 using TraceYourStackLibrary.SQLite;
+using TraceYourStackLibrary.SQLite.Models;
 
 namespace TraceYourStackLibrary.Helpers
 {

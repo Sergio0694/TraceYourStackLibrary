@@ -6,7 +6,9 @@ using JetBrains.Annotations;
 using SQLite.Net.Interop;
 using TraceYourStackLibrary.Enum;
 using TraceYourStackLibrary.Helpers;
+using TraceYourStackLibrary.JumpList;
 using TraceYourStackLibrary.SQLite;
+using TraceYourStackLibrary.SQLite.Models;
 
 namespace TraceYourStackLibrary
 {
@@ -100,6 +102,19 @@ namespace TraceYourStackLibrary
                 // Something bad happened
                 return ExceptionReportFlushResult.UnknownError;
             }
+        }
+
+        #endregion
+
+        #region Local debugging
+
+        /// <summary>
+        /// Loads all the exception reports currently stored on the device
+        /// </summary>
+        /// <returns></returns>
+        public static Task<IEnumerable<JumpListGroup<Tuple<Version, int>, ExceptionReportDebugInfo>>> LoadExceptionReportsAsync()
+        {
+            return SQLiteManager.LoadSavedExceptionReportsAsync();
         }
 
         #endregion
