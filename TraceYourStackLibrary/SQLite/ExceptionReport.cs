@@ -32,6 +32,20 @@ namespace TraceYourStackLibrary.SQLite
         public String Message { get; set; }
 
         /// <summary>
+        /// Gets the HResult of this exception
+        /// </summary>
+        [Column(nameof(HResult))]
+        [JsonProperty(nameof(HResult), DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int HResult { get; set; }
+
+        /// <summary>
+        /// Gets the optional help link for this exception
+        /// </summary>
+        [Column(nameof(HelpLink))]
+        [JsonProperty(nameof(HelpLink), DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public String HelpLink { get; set; }
+
+        /// <summary>
         /// Gets the stack trace for this exception
         /// </summary>
         [Column(nameof(StackTrace))]
@@ -41,7 +55,7 @@ namespace TraceYourStackLibrary.SQLite
         /// <summary>
         /// Gets the app version retrieved when the crash occurred
         /// </summary>
-        [Column(nameof(AppVersion))]
+        [Column(nameof(AppVersion)), NotNull]
         [JsonProperty(nameof(AppVersion), Required = Required.Always)]
         public String AppVersion { get; set; }
 
@@ -49,7 +63,48 @@ namespace TraceYourStackLibrary.SQLite
         /// Gets the time of this exception
         /// </summary>
         [Column(nameof(CrashTime)), NotNull]
-        [JsonProperty(nameof(CrashTime), Required = Required.Always)]
         public long CrashTime { get; set; }
+
+        /// <summary>
+        /// Gets the DateTime that represents the crash time
+        /// </summary>
+        [JsonProperty(nameof(CrashDateTime), Required = Required.Always)]
+        public DateTime CrashDateTime => DateTime.FromBinary(CrashTime);
+
+        /// <summary>
+        /// Gets a value that indicates whether or not this report has already been flushed
+        /// </summary>
+        [Column(nameof(Flushed)), NotNull, Default]
+        public byte Flushed { get; set; }
+
+        /// <summary>
+        /// Creates a new instance with a new uid and the right parameters for the JSON serialization
+        /// </summary>
+        /// <param name="type">The exception type</param>
+        /// <param name="message">The exception message</param>
+        /// <param name="hResult">The exception HResult, if available</param>
+        /// <param name="helplink">The optional help link</param>
+        /// <param name="stackTrace">The exception stack trace, if available</param>
+        /// <param name="version">The app version in use</param>
+        /// <param name="crashTime">The crash time for this exception</param>
+        public static ExceptionReport NewInstance(
+            [JetBrains.Annotations.NotNull] String type,
+            [JetBrains.Annotations.CanBeNull] String message, int hResult,
+            [JetBrains.Annotations.CanBeNull] String helplink,
+            [JetBrains.Annotations.CanBeNull] String stackTrace,
+            [JetBrains.Annotations.NotNull] String version, long crashTime)
+        {
+            return new ExceptionReport
+            {
+                Uid = Guid.NewGuid().ToString(),
+                ExceptionType = type,
+                Message = String.IsNullOrEmpty(message) ? null : message,
+                HResult = hResult,
+                HelpLink = String.IsNullOrEmpty(helplink) ? null : helplink,
+                StackTrace = String.IsNullOrEmpty(stackTrace) ? null : stackTrace,
+                AppVersion = version,
+                CrashTime = crashTime
+            };
+        }
     }
 }
