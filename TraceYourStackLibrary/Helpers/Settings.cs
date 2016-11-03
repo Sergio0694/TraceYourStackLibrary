@@ -1,8 +1,5 @@
 using System;
 using JetBrains.Annotations;
-using Plugin.Settings;
-using Plugin.Settings.Abstractions;
-using TraceYourStackLibrary.SQLite;
 using TraceYourStackLibrary.SQLite.Models;
 
 namespace TraceYourStackLibrary.Helpers
@@ -15,7 +12,7 @@ namespace TraceYourStackLibrary.Helpers
         /// <summary>
         /// Gets the local settings instance to use
         /// </summary>
-        private static readonly ISettings AppSettings = CrossSettings.Current;
+        private static ISettingsManager AppSettings => TysAPIs.SettingsManager;
 
         #region Setting Constants
 
@@ -55,7 +52,7 @@ namespace TraceYourStackLibrary.Helpers
         public static ExceptionReport TryGetLastSavedException()
         {
             // Check if there's a pending exception
-            if (!AppSettings.Contains(ExceptionType)) return null;
+            if (!AppSettings.ContainsKey(ExceptionType)) return null;
 
             // Make sure the required info are present
             String

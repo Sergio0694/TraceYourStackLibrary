@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Windows;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
-namespace TraceYourStackAPITestWPFApp
+namespace TraceYourStackAPITestWinRTApp
 {
     /// <summary>
-    /// Logica di interazione per MainWindow.xaml
+    /// Pagina vuota che può essere utilizzata autonomamente oppure esplorata all'interno di un frame.
     /// </summary>
-    public partial class MainWindow : Window
+    public sealed partial class MainPage : Page
     {
-        public MainWindow()
+        public MainPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private static void Crash()

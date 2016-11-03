@@ -21,7 +21,7 @@ namespace TraceYourStackLibrary.Helpers
         /// <summary>
         /// Gets the API URL to use
         /// </summary>
-        private const String RemoteAPIPostURL = "localhost:3000/TysAPIs/";
+        private const String RemoteAPIPostURL = "http://127.0.0.1:3000/upload_stack_trace";
 
         /// <summary>
         /// Gets the success code
@@ -54,7 +54,7 @@ namespace TraceYourStackLibrary.Helpers
             
             // Prepare the Http client and its content
             HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authorizationToken);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(authorizationToken);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
