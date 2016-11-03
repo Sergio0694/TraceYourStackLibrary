@@ -5,6 +5,32 @@ using SQLite.Net.Attributes;
 namespace TraceYourStackLibrary.SQLite.Models
 {
     /// <summary>
+    /// A simple JSON wrapper for an exception report
+    /// </summary>
+    [JsonObject(MemberSerialization.OptIn)]
+    internal class ExceptionReportWrapper
+    {
+        [JetBrains.Annotations.NotNull]
+        [JsonProperty("Content", Required = Required.Always)]
+        public ExceptionReport Report { get; }
+
+        // Private constructor
+        private ExceptionReportWrapper([JetBrains.Annotations.NotNull] ExceptionReport report)
+        {
+            Report = report;
+        }
+
+        /// <summary>
+        /// Implicit converter into a wrapped report
+        /// </summary>
+        /// <param name="report">The report to wrap</param>
+        public static implicit operator ExceptionReportWrapper([JetBrains.Annotations.NotNull] ExceptionReport report)
+        {
+            return new ExceptionReportWrapper(report);
+        }
+    }
+
+    /// <summary>
     /// The table that contains the queued exception reports to upload
     /// </summary>
     [Table("ExceptionReports")]
@@ -76,6 +102,13 @@ namespace TraceYourStackLibrary.SQLite.Models
         #endregion
 
         #region Parameters
+
+        /// <summary>
+        /// Gets the name of the current device
+        /// </summary>
+        [Ignore]
+        [JsonProperty(nameof(Device), Required = Required.Always)]
+        public String Device => TysAPIs.DeviceName;
 
         /// <summary>
         /// Gets the DateTime that represents the crash time

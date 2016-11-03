@@ -25,6 +25,11 @@ namespace TraceYourStackLibrary
         internal static ISQLitePlatform Platform { get; private set; }
 
         /// <summary>
+        /// Gets the name of the current device
+        /// </summary>
+        internal static String DeviceName { get; private set; }
+
+        /// <summary>
         /// Gets the authorization token for the web requests to the service
         /// </summary>
         internal static String AuthorizationToken { get; private set; }
@@ -35,11 +40,13 @@ namespace TraceYourStackLibrary
         /// Initializes the SQLite platform to use in the PCL and stores the authorization token for the app, this method must be called during startup
         /// </summary>
         /// <param name="platform">The current device platform</param>
+        /// <param name="deviceName">The name of the current device to track the crashes it generates</param>
         /// <param name="authorizationToken">The authorization token for the current app</param>
-        public static void InitializeLibrary([NotNull] ISQLitePlatform platform, [NotNull] String authorizationToken)
+        public static void InitializeLibrary([NotNull] ISQLitePlatform platform, [NotNull] String deviceName, [NotNull] String authorizationToken)
         {
-            if (Platform != null || AuthorizationToken != null) throw new InvalidOperationException("The library has already been initialized");
+            if (Platform != null || DeviceName != null || AuthorizationToken != null) throw new InvalidOperationException("The library has already been initialized");
             Platform = platform;
+            DeviceName = deviceName;
             AuthorizationToken = authorizationToken;
         }
 

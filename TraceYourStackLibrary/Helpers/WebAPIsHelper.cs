@@ -48,8 +48,9 @@ namespace TraceYourStackLibrary.Helpers
         public static async Task<ExceptionReportFlushResult> TryFlushReportAsync([NotNull] String authorizationToken, [NotNull] ExceptionReport report, CancellationToken token)
         {
             // Serialize the report into JSON
-            String json = JsonConvert.SerializeObject(report, Formatting.Indented);
-
+            ExceptionReportWrapper wrapper = report;
+            String json = JsonConvert.SerializeObject(wrapper, Formatting.Indented);
+            
             // Prepare the Http client and its content
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authorizationToken);
