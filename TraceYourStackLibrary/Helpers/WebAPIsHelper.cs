@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -35,7 +36,7 @@ namespace TraceYourStackLibrary.Helpers
         /// <summary>
         /// Gets the error code if the app token is invalid
         /// </summary>
-        private const String InvalidTokenCode = "402";
+        private const String InvalidTokenCode = "403";
 
         #endregion
 
@@ -54,14 +55,14 @@ namespace TraceYourStackLibrary.Helpers
             // Prepare the Http client and its content
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authorizationToken);
-            HttpContent content = new StringContent(json);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
             // Flush the report to the web service
             try
             {
                 // POST the report
-                HttpResponseMessage response =
-                    await client.PostAsync(new Uri(RemoteAPIPostURL), content, token).ContinueWith(t => t.GetAwaiter().GetResult(), token);
+                HttpResponseMessage response = await client.PostAsync(new Uri(RemoteAPIPostURL), content, token).ContinueWith(t => t.GetAwaiter().GetResult(), token);
                 if (response == null || !response.IsSuccessStatusCode)
                 {
                     return token.IsCancellationRequested ? ExceptionReportFlushResult.OperationCanceled : ExceptionReportFlushResult.NetworkConnectionNotAvailable;

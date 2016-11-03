@@ -36,7 +36,7 @@ namespace TraceYourStackAPITestWPFApp
         {
             // Initialize the SQLite platform and the library
             ISQLitePlatform platform = new SQLitePlatformGeneric();
-            TysAPIs.InitializeLibrary(platform, TraceYourStackAuthorizationToken);
+            TysAPIs.InitializeLibrary(platform, Environment.MachineName, TraceYourStackAuthorizationToken);
 
             // Flush the previous exceptions, if needed
             CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
