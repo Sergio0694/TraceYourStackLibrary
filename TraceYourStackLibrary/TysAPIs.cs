@@ -13,9 +13,9 @@ using TraceYourStackLibrary.SQLite.Models;
 namespace TraceYourStackLibrary
 {
     /// <summary>
-    /// A wrapper class with all the public APIs exposed by the library
+    /// A wrapper class with all the public TysAPIs exposed by the library
     /// </summary>
-    public static class APIs
+    public static class TysAPIs
     {
         #region Parameters
 
@@ -32,8 +32,7 @@ namespace TraceYourStackLibrary
         #endregion
 
         /// <summary>
-        /// <para>Initializes the SQLite platform to use in the PCL and stores the authorization token for the app,</para>
-        /// <para>call this method during the app startup</para>
+        /// Initializes the SQLite platform to use in the PCL and stores the authorization token for the app, this method must be called during startup
         /// </summary>
         /// <param name="platform">The current device platform</param>
         /// <param name="authorizationToken">The authorization token for the current app</param>
@@ -44,7 +43,7 @@ namespace TraceYourStackLibrary
             AuthorizationToken = authorizationToken;
         }
 
-        #region Logging APIs
+        #region Logging TysAPIs
 
         /// <summary>
         /// Logs the last thrown exception, call this method from the UnhandledException event handler
@@ -111,7 +110,6 @@ namespace TraceYourStackLibrary
         /// <summary>
         /// Loads all the exception reports currently stored on the device
         /// </summary>
-        /// <returns></returns>
         public static Task<IEnumerable<JumpListGroup<Tuple<Version, int>, ExceptionReportDebugInfo>>> LoadExceptionReportsAsync()
         {
             return SQLiteManager.LoadSavedExceptionReportsAsync();

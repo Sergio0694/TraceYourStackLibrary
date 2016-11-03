@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraceYourStackLibrary", "TraceYourStackLibrary\TraceYourStackLibrary.csproj", "{FE28A949-CB03-469D-8F02-CB50787211C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraceYourStackAPITestWPFApp", "PackagesTestWPF\TraceYourStackAPITestWPFApp.csproj", "{169263DA-4ACA-427C-8AD2-9B69C888167C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{FE28A949-CB03-469D-8F02-CB50787211C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE28A949-CB03-469D-8F02-CB50787211C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE28A949-CB03-469D-8F02-CB50787211C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{169263DA-4ACA-427C-8AD2-9B69C888167C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{169263DA-4ACA-427C-8AD2-9B69C888167C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{169263DA-4ACA-427C-8AD2-9B69C888167C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{169263DA-4ACA-427C-8AD2-9B69C888167C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

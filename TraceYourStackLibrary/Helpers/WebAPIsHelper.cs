@@ -20,7 +20,7 @@ namespace TraceYourStackLibrary.Helpers
         /// <summary>
         /// Gets the API URL to use
         /// </summary>
-        private const String RemoteAPIPostURL = "localhost:3000/APIs/";
+        private const String RemoteAPIPostURL = "localhost:3000/TysAPIs/";
 
         /// <summary>
         /// Gets the success code

@@ -65,9 +65,9 @@ namespace TraceYourStackLibrary.SQLite
             IFile database = await FileSystemHelper.TryGetFileAsync(ExceptionsDatabaseName, DatabaseFolderName);
 
             // Connect to the database
-            if (APIs.Platform == null) throw new InvalidOperationException("The SQLite platform hasn't been initialized");
+            if (TysAPIs.Platform == null) throw new InvalidOperationException("The SQLite platform hasn't been initialized");
             SQLiteConnectionString connectionString = new SQLiteConnectionString(database.Path, true);
-            SQLiteConnectionWithLock lockConnection = new SQLiteConnectionWithLock(APIs.Platform, connectionString);
+            SQLiteConnectionWithLock lockConnection = new SQLiteConnectionWithLock(TysAPIs.Platform, connectionString);
             SQLiteAsyncConnection connection = new SQLiteAsyncConnection(() => lockConnection);
 
             // Make sure the table exists
