@@ -1,7 +1,7 @@
 ﻿using System;
 using JetBrains.Annotations;
 
-namespace TraceYourStackLibrary.Helpers
+namespace TraceYourStackLibrary.Helpers.LocalStorage
 {
     /// <summary>
     /// An interface to manage cross-platform settings

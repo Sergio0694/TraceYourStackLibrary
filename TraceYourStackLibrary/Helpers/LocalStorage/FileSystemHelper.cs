@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using PCLStorage;
 
-namespace TraceYourStackLibrary.Helpers
+namespace TraceYourStackLibrary.Helpers.LocalStorage
 {
     /// <summary>
     /// A simple class that manages the current file system in use

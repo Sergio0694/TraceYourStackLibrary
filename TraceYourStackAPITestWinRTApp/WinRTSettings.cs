@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using TraceYourStackLibrary.Helpers;
+using TraceYourStackLibrary.Helpers.LocalStorage;
 
 namespace TraceYourStackAPITestWinRTApp
 {

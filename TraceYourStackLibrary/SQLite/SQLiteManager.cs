@@ -6,7 +6,8 @@ using JetBrains.Annotations;
 using PCLStorage;
 using SQLite.Net;
 using SQLite.Net.Async;
-using TraceYourStackLibrary.Helpers;
+using TraceYourStackLibrary.DataModels;
+using TraceYourStackLibrary.Helpers.LocalStorage;
 using TraceYourStackLibrary.JumpList;
 using TraceYourStackLibrary.SQLite.Models;
 
@@ -121,7 +122,7 @@ namespace TraceYourStackLibrary.SQLite
         /// <summary>
         /// Loads a list of all the exception reports stored on the current device
         /// </summary>
-        public static async Task<IEnumerable<JumpListGroup<Tuple<Version, int>, ExceptionReportDebugInfo>>> LoadSavedExceptionReportsAsync()
+        public static async Task<IEnumerable<JumpListGroup<ExceptionsGroup, ExceptionReportDebugInfo>>> LoadSavedExceptionReportsAsync()
         {
             // Ensure the database is connected
             await EnsureDatabaseInitializedAsync();
@@ -169,7 +170,7 @@ namespace TraceYourStackLibrary.SQLite
                  select header.Key).ToList();
 
             // Create the output collection
-            IEnumerable<JumpListGroup<Tuple<Version, int>, ExceptionReportDebugInfo>> groupedList =
+            IEnumerable<JumpListGroup<ExceptionsGroup, ExceptionReportDebugInfo>> groupedList =
                 from version in appVersions
                 let items =
                     (from exception in exceptions
@@ -180,8 +181,8 @@ namespace TraceYourStackLibrary.SQLite
                 let immutableItems =
                     (from item in items
                      select ExceptionReportDebugInfo.New(item))
-                select new JumpListGroup<Tuple<Version, int>, ExceptionReportDebugInfo>(
-                    Tuple.Create<Version, int>(Version.Parse(version), items.Count), immutableItems);
+                select new JumpListGroup<ExceptionsGroup, ExceptionReportDebugInfo>(
+                   new ExceptionsGroup(Version.Parse(version), items.Count), immutableItems);
 
             // Return the exceptions
             return groupedList;

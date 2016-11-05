@@ -34,16 +34,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Helpers\ISettingsManager.cs" />
+    <Compile Include="DataModels\ExceptionReportDebugInfo.cs" />
+    <Compile Include="DataModels\ExceptionsGroup.cs" />
+    <Compile Include="Helpers\LocalStorage\FileSystemHelper.cs" />
+    <Compile Include="Helpers\LocalStorage\ISettingsManager.cs" />
     <Compile Include="TysAPIs.cs" />
     <Compile Include="Enum\ExceptionReportFlushResult.cs" />
-    <Compile Include="Helpers\FileSystemHelper.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Helpers\WebAPIsHelper.cs" />
     <Compile Include="JumpList\JumpListGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLite\Models\ExceptionReport.cs" />
-    <Compile Include="SQLite\Models\ExceptionReportDebugInfo.cs" />
     <Compile Include="SQLite\SQLiteManager.cs" />
   </ItemGroup>
   <ItemGroup>

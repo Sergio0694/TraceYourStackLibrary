@@ -56,28 +56,28 @@ namespace TraceYourStackLibrary.SQLite.Models
         /// Gets the optional message of this exception
         /// </summary>
         [Column(nameof(Message))]
-        [JsonProperty(nameof(Message), DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(nameof(Message), DefaultValueHandling = DefaultValueHandling.Include)]
         public String Message { get; set; }
 
         /// <summary>
         /// Gets the HResult of this exception
         /// </summary>
         [Column(nameof(HResult))]
-        [JsonProperty(nameof(HResult), DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(nameof(HResult), DefaultValueHandling = DefaultValueHandling.Include)]
         public int HResult { get; set; }
 
         /// <summary>
         /// Gets the optional help link for this exception
         /// </summary>
         [Column(nameof(HelpLink))]
-        [JsonProperty(nameof(HelpLink), DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(nameof(HelpLink), DefaultValueHandling = DefaultValueHandling.Include)]
         public String HelpLink { get; set; }
 
         /// <summary>
         /// Gets the stack trace for this exception
         /// </summary>
         [Column(nameof(StackTrace))]
-        [JsonProperty(nameof(StackTrace), DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(nameof(StackTrace), DefaultValueHandling = DefaultValueHandling.Include)]
         public String StackTrace { get; set; }
 
         /// <summary>
@@ -106,6 +106,7 @@ namespace TraceYourStackLibrary.SQLite.Models
         /// <summary>
         /// Gets the name of the current device
         /// </summary>
+        [JetBrains.Annotations.NotNull]
         [Ignore]
         [JsonProperty(nameof(Device), Required = Required.Always)]
         public String Device => TysAPIs.DeviceName;

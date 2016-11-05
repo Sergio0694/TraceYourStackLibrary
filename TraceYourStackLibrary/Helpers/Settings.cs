@@ -1,5 +1,6 @@
 using System;
 using JetBrains.Annotations;
+using TraceYourStackLibrary.Helpers.LocalStorage;
 using TraceYourStackLibrary.SQLite.Models;
 
 namespace TraceYourStackLibrary.Helpers

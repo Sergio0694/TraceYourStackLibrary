@@ -4,8 +4,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SQLite.Net.Interop;
+using TraceYourStackLibrary.DataModels;
 using TraceYourStackLibrary.Enum;
 using TraceYourStackLibrary.Helpers;
+using TraceYourStackLibrary.Helpers.LocalStorage;
 using TraceYourStackLibrary.JumpList;
 using TraceYourStackLibrary.SQLite;
 using TraceYourStackLibrary.SQLite.Models;
@@ -50,7 +52,10 @@ namespace TraceYourStackLibrary
         /// <param name="authorizationToken">The authorization token for the current app</param>
         public static void InitializeLibrary([NotNull] ISQLitePlatform platform, [NotNull] ISettingsManager manager, [NotNull] String deviceName, [NotNull] String authorizationToken)
         {
-            if (Platform != null || SettingsManager != null || DeviceName != null || AuthorizationToken != null) throw new InvalidOperationException("The library has already been initialized");
+            if (Platform != null || SettingsManager != null || DeviceName != null || AuthorizationToken != null)
+            {
+                throw new InvalidOperationException("The library has already been initialized");
+            }
             Platform = platform;
             SettingsManager = manager;
             DeviceName = deviceName;
@@ -124,7 +129,7 @@ namespace TraceYourStackLibrary
         /// <summary>
         /// Loads all the exception reports currently stored on the device
         /// </summary>
-        public static Task<IEnumerable<JumpListGroup<Tuple<Version, int>, ExceptionReportDebugInfo>>> LoadExceptionReportsAsync()
+        public static Task<IEnumerable<JumpListGroup<ExceptionsGroup, ExceptionReportDebugInfo>>> LoadExceptionReportsAsync()
         {
             return SQLiteManager.LoadSavedExceptionReportsAsync();
         }

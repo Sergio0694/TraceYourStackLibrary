@@ -1,12 +1,13 @@
 ﻿using System;
 using JetBrains.Annotations;
+using TraceYourStackLibrary.SQLite.Models;
 
-namespace TraceYourStackLibrary.SQLite.Models
+namespace TraceYourStackLibrary.DataModels
 {
     /// <summary>
     /// Gets a model that contains all the debug info on an exception report
     /// </summary>
-    public class ExceptionReportDebugInfo
+    public sealed class ExceptionReportDebugInfo
     {
         /// <summary>
         /// Gets the exception type for this report
